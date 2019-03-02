@@ -1,0 +1,17 @@
+spec:
+  template:
+    spec:
+      containers:
+        -
+          resources:
+           requests:
+             cpu: 0.2
+             memory: 256Mi
+           limits:
+             cpu: 1.0
+             memory: 256Mi
+          env:
+          - name: APP_CLIENT_PERIOD
+            value: 5000
+          - name: APP_SERVER_ENDPOINT
+            value: http://spring-boot-rest-service-server:8080/api/greet/Fede

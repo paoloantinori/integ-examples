@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: RoleBinding
+metadata:
+  name: ${project.artifactId}
+roleRef:
+  # enable resources edit from whithin the pod
+  name: edit
+subjects:
+  - kind: ServiceAccount
+    name: ${project.artifactId}

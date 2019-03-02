@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:camel="http://camel.apache.org/schema/spring" 
+    xmlns:jee="http://www.springframework.org/schema/jee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd             
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd         
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd" default-lazy-init="false" default-autowire="no">
+
+     <camelContext xmlns="http://camel.apache.org/schema/spring">
+
+        <route>
+            <from uri="jms:TestQueue"/>
+            <transacted/>
+            <log message="${body}"/>
+            <!--throwException exceptionType="java.lang.IllegalArgumentException" message="This is forced"/-->
+        </route>
+
+    </camelContext>
+
+    <jee:jndi-lookup id="pooledCF" jndi-name="java:/RemoteJmsXA"/>
+    <bean id="txManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>
+
+    <bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
+        <property name="configuration">
+            <bean class="org.apache.camel.component.jms.JmsConfiguration">
+                <property name="connectionFactory" ref="pooledCF"/>
+                <property name="transacted" value="false"/>
+                <property name="transactionManager" ref="txManager"/>
+                <property name="maxConcurrentConsumers" value="1"/>
+                <!-- set CACHE_NONE because caching does not work with XA -->
+                <property name="cacheLevelName" value="CACHE_NONE"/>
+                <property name="deliveryPersistent" value="true"/>
+                <property name="requestTimeout" value="10000"/>
+            </bean>
+        </property>
+    </bean>
+
+</beans>
