@@ -43,7 +43,7 @@ public class Consumer extends KafkaClient {
                 // commit after processing: at-least-once (duplicate msgs possible, must be idempotent)
                 //consumer.commitSync();
 
-                Thread.sleep((int) props.get("sms"));
+                Thread.sleep((int) props.get("dms"));
             }
 
         } catch (Exception e) {

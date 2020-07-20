@@ -44,7 +44,7 @@ public class AvroConsumer extends KafkaClient {
                         record.topic(), record.partition(), record.offset(), record.key(), record.value());
                 }
 
-                Thread.sleep((int) props.get("sms"));
+                Thread.sleep((int) props.get("dms"));
             }
 
         } catch (Exception e) {

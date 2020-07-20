@@ -3,9 +3,9 @@ mvn clean compile exec:java -Ppro
 mvn clean compile exec:java -Pcon
 
 # other options
-mvn clean compile exec:java -Pcona \
+mvn clean compile exec:java -Pacon \
     -Durl=$BOOTSTRAP_URL \
-    -Dtopics=my-topic -Dsms=100 \
+    -Dtopics=my-topic -Ddms=100 \
     -Dreg=$REGISTRY_URL \
     -Dts=/tmp/client-ts.jks -Dtsp=secret
 

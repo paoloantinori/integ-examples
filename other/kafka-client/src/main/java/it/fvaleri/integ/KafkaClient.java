@@ -19,7 +19,7 @@ public abstract class KafkaClient implements Runnable {
 
     private void sharedConfig(Properties props) {
         props.put("topics", System.getProperty("topics", "my-topic"));
-        props.put("sms", Integer.parseInt(System.getProperty("sms", "0")));
+        props.put("dms", Integer.parseInt(System.getProperty("dms", "0")));
         props.put("reg", System.getProperty("reg", "http://localhost:8081/api"));
 
         String truststore = System.getProperty("ts");
@@ -48,11 +48,9 @@ public abstract class KafkaClient implements Runnable {
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "none");
 
-        // idempotence also preserve ordering in case of retries
-        props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
-
-        // how many min.insync.replicas must acknowledge the receipt
-        props.put(ProducerConfig.ACKS_CONFIG, "all");
+        // how many min.insync.replicas must acknowledge the receipt (all with idemp true)
+        props.put(ProducerConfig.ACKS_CONFIG, "1");
+        props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, false);
         // set internal cache to zero to send one message at a time
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16_384);
 
@@ -75,6 +73,12 @@ public abstract class KafkaClient implements Runnable {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        // max poll intervall and number of records
+        if (props.get("dms") != "0") {
+            props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, props.get("dms"));
+            props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 1);
+        }
 
         // heartbeat timeout to the consumer coordinator broker
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 30_000);

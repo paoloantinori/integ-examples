@@ -3,7 +3,7 @@
 mvn clean spring-boot:run
 
 # access public resources
-curl -H "Content-Type: application/json" http://localhost:8080/doc
+curl -H "Content-Type: application/json" http://localhost:8080/api/doc
 
 # use basic HTTP authentication to get the access_token (pwd grant type)
 curl -u fvaleri:secret http://localhost:8080/auth

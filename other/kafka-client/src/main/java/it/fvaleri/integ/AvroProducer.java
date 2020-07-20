@@ -52,7 +52,7 @@ public class AvroProducer extends KafkaClient {
                 LOG.info("Message sent [topic: {}, partition: {}, offset: {}, key: {}, payload: {}]",
                     record.topic(), record.partition(), metadata.offset(), record.key(), record.value());
 
-                Thread.sleep((int) props.get("sms"));
+                Thread.sleep((int) props.get("dms"));
             }
 
         } catch (Exception e) {

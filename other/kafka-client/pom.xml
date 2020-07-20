@@ -65,13 +65,13 @@
             </properties>
         </profile>
         <profile>
-            <id>proa</id>
+            <id>apro</id>
             <properties>
                 <target.main.class>it.fvaleri.integ.AvroProducer</target.main.class>
             </properties>
         </profile>
         <profile>
-            <id>cona</id>
+            <id>acon</id>
             <properties>
                 <target.main.class>it.fvaleri.integ.AvroConsumer</target.main.class>
             </properties>
