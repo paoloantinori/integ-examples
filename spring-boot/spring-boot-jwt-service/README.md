@@ -10,6 +10,5 @@ curl -u fvaleri:secret http://localhost:8080/auth
 
 # access protected resource using the access_token
 curl -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $TOKEN" \
-    http://localhost:8080/api/greet/Fede
+    -H "Authorization: Bearer $TOKEN" http://localhost:8080/api/greet/Fede
 ```
