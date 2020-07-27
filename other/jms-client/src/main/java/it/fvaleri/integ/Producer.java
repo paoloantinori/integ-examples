@@ -1,50 +1,40 @@
 package it.fvaleri.integ;
 
-import java.util.Properties;
-
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-public class Producer extends JMSClient {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Producer {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Producer.class);
 
     public static void main(String[] args) {
-        new Producer().run();
-        System.exit(0);
-    }
-
-    @Override
-    public void run() {
         Connection conn = null;
         try {
 
-            final Properties props = getConfiguration();
-            conn = openConnection(props);
-
+            conn = JMSUtil.openConnection();
             Session session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            Destination dest = createDestination(props, session);
+            Destination dest = JMSUtil.createDestination(session);
 
             MessageProducer producer = session.createProducer(dest);
-            if (props.get("ttl") != "0") {
-                producer.setTimeToLive((int) props.get("ttl"));
-            }
+            producer.setTimeToLive(PropertiesUtil.getMessageTTL());
             TextMessage message = session.createTextMessage("test");
-            for (int i = 0; i < (int) props.get("nom"); i++) {
 
-                startStats();
+            while (true) {
                 producer.send(message); // sync by default; async with TXs and non-pers
                 LOG.info("Sent message {}", message.getJMSMessageID());
-                printStats();
-
-                Thread.sleep((int) props.get("dms"));
+                Thread.sleep(PropertiesUtil.getDelayMs());
             }
 
         } catch (Exception e) {
             LOG.error("Unexpected error", e);
         } finally {
-            closeConnection(conn);
+            JMSUtil.closeConnection(conn);
         }
     }
 

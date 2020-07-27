@@ -11,46 +11,40 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-public class Consumer extends JMSClient {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Consumer {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Consumer.class);
 
     public static void main(String[] args) {
-        new Consumer().run();
-        System.exit(0);
-    }
-
-    @Override
-    public void run() {
         Connection conn = null;
         try {
 
-            final Properties props = getConfiguration();
-            conn = openConnection(props);
+            conn = JMSUtil.openConnection();
             //conn.setClientID("id0");
 
             // ack mode ignored when using transacted session
             Session session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            Destination dest = createDestination(props, session);
+            Destination dest = JMSUtil.createDestination(session);
 
             MessageConsumer consumer = session.createConsumer(dest);
             //MessageConsumer consumer = session.createDurableSubscriber(topic, "sub0");
             //consumer.setMessageListener(new MyMessageListener()); // async
 
-            for (int i = 0; i < (int) props.get("nom"); i++) {
+            while (true) {
                 TextMessage message = (TextMessage) consumer.receive(60_000);
-                startStats();
-
                 if (message != null) {
                     LOG.info("Received message {}", message.getJMSMessageID());
-                    printStats();
                 }
-
-                Thread.sleep((int) props.get("dms"));
+                Thread.sleep(PropertiesUtil.getDelayMs());
             }
 
         } catch (Exception e) {
             LOG.error("Unexpected error", e);
         } finally {
-            closeConnection(conn);
+            JMSUtil.closeConnection(conn);
         }
     }
 

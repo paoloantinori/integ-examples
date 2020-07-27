@@ -9,22 +9,20 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.SerializationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class Consumer extends KafkaClient {
+public class Consumer {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Consumer.class);
 
     public static void main(String[] args) {
-        new Consumer().run();
-        System.exit(0);
-    }
+        final Properties prop = KafkaUtil.getConsumerConfig();
+        // enable/disable auto commit
+        prop.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
+        try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(prop)) {
 
-    @Override
-    public void run() {
-        final Properties props = consConfig();
-        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
-
-        try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
-
-            consumer.subscribe(Collections.singletonList(props.getProperty("topics")));
+            consumer.subscribe(Collections.singletonList(PropertiesUtil.getTopics()));
             while (true) {
                 // batch of messages potentially from multiple topic/partitions
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
@@ -43,7 +41,7 @@ public class Consumer extends KafkaClient {
                 // commit after processing: at-least-once (duplicate msgs possible, must be idempotent)
                 //consumer.commitSync();
 
-                Thread.sleep((int) props.get("dms"));
+                Thread.sleep(PropertiesUtil.getDelayMs());
             }
 
         } catch (Exception e) {
