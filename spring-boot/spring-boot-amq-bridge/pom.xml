@@ -59,6 +59,7 @@
 
     <build>
         <plugins>
+            <!-- mvn clean spring-boot:run -->
             <plugin>
                 <groupId>org.jboss.redhat-fuse</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

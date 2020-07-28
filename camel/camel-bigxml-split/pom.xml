@@ -18,7 +18,7 @@
             <dependency>
                 <groupId>org.apache.camel</groupId>
                 <artifactId>camel-bom</artifactId>
-                <version>3.4.0</version>
+                <version>3.4.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -68,6 +68,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.1</version>
                 <configuration>
+                    <!-- Xmx is set to 20 MB to show that it works with a very limited amount of memory -->
                     <argLine>-Xmx20m -Dfile.encoding=${project.build.sourceEncoding}</argLine>
                 </configuration>
             </plugin>

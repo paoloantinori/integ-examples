@@ -37,7 +37,7 @@
 		<property name="timeout" value="10"/>
     </bean>
 
-     <!-- SOURCE BROKER SETUP -->
+    <!-- SOURCE BROKER SETUP -->
 
     <bean id="sourceCF" class="org.apache.activemq.ActiveMQConnectionFactory">
         <!-- prefetch policy is needed only when consuming messages -->

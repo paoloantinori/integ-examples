@@ -4,7 +4,6 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-    <!-- mvn clean compile camel:run -->
     <camelContext id="myContext" xmlns="http://camel.apache.org/schema/spring" streamCache="true" trace="false">
         <jmxAgent id="agent" disabled="true"/>
         <!-- no onException: let TransactionErrorHandler to handle redeliveries (max 6) and TransactionManager to handle rollbacks -->

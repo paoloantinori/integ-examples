@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.fvaleri.integ</groupId>
@@ -13,7 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <camel.version>2.24.3</camel.version>
-        <activemq.version>5.15.11</activemq.version>
+        <activemq.version>5.16.0</activemq.version>
     </properties>
 
     <dependencies>
@@ -56,6 +55,7 @@
 
     <build>
         <plugins>
+            <!-- mvn clean compile camel:run -->
             <plugin>
                 <groupId>org.apache.camel</groupId>
                 <artifactId>camel-maven-plugin</artifactId>
@@ -66,13 +66,13 @@
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                  <filesets>
-                    <fileset>
-                      <directory>activemq-data</directory>
-                    </fileset>
-                  </filesets>
+                    <filesets>
+                        <fileset>
+                            <directory>activemq-data</directory>
+                        </fileset>
+                    </filesets>
                 </configuration>
-              </plugin>
+            </plugin>
         </plugins>
     </build>
 

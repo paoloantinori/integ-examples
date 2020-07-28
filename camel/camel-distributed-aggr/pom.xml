@@ -23,7 +23,7 @@
             <version>${camel.version}</version>
         </dependency>
 
-        <!-- 3.4.0-SNAPSHOT -->
+        <!-- 3.4.2-SNAPSHOT -->
         <!--<dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-main</artifactId>
