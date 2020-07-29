@@ -11,6 +11,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <service.registry.release.version>1.2.2.Final-redhat-00005</service.registry.release.version>
     </properties>
 
     <dependencies>
@@ -22,7 +23,7 @@
         <dependency>
             <groupId>io.apicurio</groupId>
             <artifactId>apicurio-registry-utils-serde</artifactId>
-            <version>1.2.2.Final</version>
+            <version>${service.registry.release.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.enterprise</groupId>
